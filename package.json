@@ -1,0 +1,32 @@
+{
+  "name": "proshop-v2",
+  "version": "1.0.0",
+  "description": "eCommerce application built MERN stack",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zsaritek/proshop-demo.git"
+  },
+  "author": "Zeynep Sariteke",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zsaritek/proshop-demo/issues"
+  },
+  "homepage": "https://github.com/zsaritek/proshop-demo#readme",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.3.4"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "nodemon": "^3.1.0"
+  }
+}
