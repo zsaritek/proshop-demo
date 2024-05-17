@@ -1,0 +1,24 @@
+
+//for calculation of price card slice 
+export const addDecimals = (num) => {
+    return (Math.round(num * 100) / 100).toFixed(2);
+};
+
+export const updateCart = (state) => {
+    // calculate items price 
+    state.itemsPrice = addDecimals(state.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0));
+    // calculate items shipping price (if order is over $100, shipping is free else $10)
+    state.shippingPrice = addDecimals(state.itemsPrice > 100 ? 0 : 10);
+    // calculate items tax price ( %15 tax)
+    state.taxPrice = addDecimals(Number((0.15 * state.itemsPrice).toFixed(2)));
+    // calculate item
+    state.totalPrice = (
+        Number(state.itemsPrice) +
+        Number(state.shippingPrice) +
+        Number(state.taxPrice)
+    ).toFixed(2);
+
+    localStorage.setItem("cart", JSON.stringify(state));
+    
+    return state;
+};
