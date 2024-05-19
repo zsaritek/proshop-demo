@@ -9,7 +9,8 @@ import {
     getUsers,
     deleteUser,
     getUserByID,
-    updateUser } from '../controllers/userController.js';
+    updateUser
+} from '../controllers/userController.js';
 
 
 router.route('/').post(registerUser).get(getUsers);
