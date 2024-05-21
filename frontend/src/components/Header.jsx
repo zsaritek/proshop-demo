@@ -1,17 +1,31 @@
+import { useNavigate } from 'react-router-dom';
 import { Badge, Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { FaShoppingCart, FaUser } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useLogoutMutation } from '../slices/userApiSlice';
+import { logout } from '../slices/authSlice';
 import logo from '../assets/logo.png';
-// import { Link } from 'react-router-dom';
+
 
 //store js object
 const Header = () => {
     const { cartItems } = useSelector((state) => state.cart);
     const { userInfo } = useSelector((state) => state.auth);
 
-    const logoutHandler = () => {
-        console.log('logout');
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const [logoutApiCall] = useLogoutMutation();
+
+    const logoutHandler = async () => {
+        try {
+            await logoutApiCall().unwrap();
+            dispatch(logout());
+            navigate('/login');
+        } catch (err) {
+            console.log(err);
+        }
     };
 
 
@@ -28,7 +42,7 @@ const Header = () => {
                         <Nav className="me-auto">
                             <LinkContainer to='/cart'>
                                 <Nav.Link>
-                              {/* part 36 for for cart header badge */}
+                                    {/* part 36 for for cart header badge */}
                                     <FaShoppingCart />Cart
                                     {
                                         cartItems.length > 0 && (
