@@ -22,8 +22,8 @@ const ProductListScreen = () => {
                 refetch();
             } catch (err) {
                 toast.error(err?.data?.message || err.error);
-          }
-      }
+            }
+        }
     };
 
     const createProductHandler = async () => {
