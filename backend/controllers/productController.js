@@ -5,14 +5,20 @@ import Product from "../models/productModel.js";
 // @route    GET /api/products
 // @access  Public
 const getProducts = asyncHandler(async (req, res) => {
-    const pageSize = 2;
+    const pageSize = 8;
     const page = Number(req.query.pageNumber) || 1;
-    const count = await Product.countDocuments();
 
-    const products = await Product.find({})
+    const keyword = req.query.keyword
+        ? {
+            name: { $regex: req.query.keyword, $options: 'i' }
+        } : {};
+
+    const count = await Product.countDocuments({ ...keyword });
+
+    const products = await Product.find({ ...keyword })
         .limit(pageSize)
         .skip(pageSize * (page - 1));
-    res.json({products, page, pages: Math.ceil(count / pageSize)});
+    res.json({ products, page, pages: Math.ceil(count / pageSize) });
 
 });
 
@@ -107,13 +113,13 @@ const createProductReview = asyncHandler(async (req, res) => {
 
     if (product) {
         const alreadyReviewed = product.reviews.find(
-            (review) => review.user.toString() === req.user._id.toString() 
+            (review) => review.user.toString() === req.user._id.toString()
         );
 
         if (alreadyReviewed) {
             res.status(400);
             throw new Error('Product already reviewed');
-    }    
+        }
         const review = {
             name: req.user.name,
             rating: Number(rating),
@@ -126,7 +132,7 @@ const createProductReview = asyncHandler(async (req, res) => {
 
         product.rating =
             product.reviews.reduce((acc, review) => review.rating + acc, 0) / product.reviews.length;
-        
+
         await product.save();
         res.status(201).json({ message: 'Review added' });
     } else {
@@ -136,4 +142,4 @@ const createProductReview = asyncHandler(async (req, res) => {
 
 });
 
-export { getProducts, getProductById, createProduct, updateProduct, deleteProduct,createProductReview };
+export { getProducts, getProductById, createProduct, updateProduct, deleteProduct, createProductReview };
