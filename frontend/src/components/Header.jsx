@@ -7,7 +7,7 @@ import { useLogoutMutation } from '../slices/usersApiSlice';
 import { logout } from '../slices/authSlice';
 import SearchBox from './SearchBox';
 import logo from '../assets/logo.png';
-import {resetCart} from '../slices/cartSlice';
+import { resetCart } from '../slices/cartSlice';
 
 
 //store js object
