@@ -33,6 +33,8 @@ app.get('/api/config/paypal', (req, res) =>
 
 
 const __dirname = path.resolve();
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
+
 
 if (process.env.NODE_ENV === 'production') {
     //set static folder
@@ -48,11 +50,6 @@ if (process.env.NODE_ENV === 'production') {
     });
 }
 
-
-
-
-app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
-
 app.use(notFound);
 app.use(errorHandler);
-app.listen(port, () => console.log(`Server running on port ${port}`));
+app.listen(port, () => console.log(`Server running in ${process.env.NODE_ENV} mode on port ${port}`));
